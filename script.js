@@ -1,0 +1,134 @@
+// script.js
+// Restored: Gallery lightbox + Article reveal-on-scroll (with container support)
+
+document.addEventListener('DOMContentLoaded', () => {
+  /* ============================
+   *  LIGHTBOX FOR GALLERY IMAGES
+   * ============================ 
+   * Required HTML:
+   *   <div class="lightbox" id="lightbox" aria-hidden="true">
+   *     <button class="lightbox-close" aria-label="Close">&times;</button>
+   *     <img id="lightbox-img" alt="">
+   *   </div>
+   *   <img class="gallery-img" src="..." data-full="..." alt="...">
+   */
+
+  const lb    = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const closeBtn = document.querySelector('.lightbox-close');
+
+  function openLightbox(src, alt) {
+    if (!lb || !lbImg) return;
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    lb.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeLightbox() {
+    if (!lb || !lbImg) return;
+    lb.setAttribute('aria-hidden', 'true');
+    // Clear src so large images unload when closed
+    lbImg.src = '';
+  }
+
+  // Bind clicks on gallery thumbnails
+  document.querySelectorAll('.gallery-img').forEach(img => {
+    img.addEventListener('click', () => {
+      const src = img.dataset.full || img.src;
+      openLightbox(src, img.alt);
+    });
+  });
+
+  // Close handlers
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  if (lb) {
+    // click on the dim backdrop closes (but not on the image itself)
+    lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+
+  /* ============================================
+   *  ARTICLE FADE-IN WHEN SCROLLING PAST IMAGE
+   * ============================================
+   * Required HTML:
+   *   <img id="mainImage" ...>
+   *   <div id="ar-trigger" aria-hidden="true"></div>  <!-- sentinel just after image -->
+   *   <article id="ar" class="reveal"> ... </article>
+   * Required CSS:
+   *   .reveal { opacity:0; transform:translateY(18px); transition: opacity 800ms, transform 800ms; }
+   *   .reveal.is-visible { opacity:1; transform:none; }
+   */
+
+  const article  = document.getElementById('ar');
+  const trigger  = document.getElementById('ar-trigger');
+
+  // Utility: find the nearest scrollable ancestor (handles container scrolling)
+  function getScrollParent(el) {
+    let p = el && el.parentElement;
+    while (p) {
+      const { overflowY } = getComputedStyle(p);
+      if (/(auto|scroll|overlay)/.test(overflowY)) return p;
+      p = p.parentElement;
+    }
+    return null; // fall back to viewport
+  }
+
+  function revealArticle() {
+    if (article && !article.classList.contains('is-visible')) {
+      article.classList.add('is-visible');
+    }
+  }
+
+  if (article) {
+    // Ensure base class exists (in case it's missing)
+    article.classList.add('reveal');
+  }
+
+  if (article && trigger && 'IntersectionObserver' in window) {
+    const rootEl = getScrollParent(trigger);
+
+    const io = new IntersectionObserver((entries, obs) => {
+      const entry = entries[0];
+      if (entry && entry.isIntersecting) {
+        revealArticle();
+        obs.disconnect(); // run once
+      }
+    }, {
+      root: rootEl || null,     // container scroll or viewport
+      threshold: 0,             // fire as soon as sentinel touches the root
+      // Negative bottom margin waits until you've scrolled further down
+      rootMargin: '0px 0px -35% 0px'
+    });
+
+    io.observe(trigger);
+  } else if (article && !('IntersectionObserver' in window)) {
+    // Fallback for very old browsers
+    revealArticle();
+  }
+
+  /* ======================
+   * OPTIONAL ALT TRIGGERS:
+   * ======================
+   * If you prefer not to rely on scroll, uncomment any of these:
+   */
+
+  // A) Reveal when the hero image finishes loading (no scroll needed)
+  // const hero = document.getElementById('mainImage');
+  // if (hero) {
+  //   const onReady = () => setTimeout(revealArticle, 150);
+  //   if (hero.complete && hero.naturalWidth > 0) onReady();
+  //   else hero.addEventListener('load', onReady, { once: true });
+  // }
+
+  // B) Reveal after a fixed delay (e.g., 2 seconds after DOM ready)
+  // setTimeout(revealArticle, 2000);
+
+  // C) Reveal on first user interaction (click or Enter/Space)
+  // const onFirstClick = () => { revealArticle(); document.removeEventListener('click', onFirstClick); };
+  // const onFirstKey = (e) => { if (e.key === 'Enter' || e.key === ' ') { revealArticle(); document.removeEventListener('keydown', onFirstKey); } };
+  // document.addEventListener('click', onFirstClick, { once: true });
+  // document.addEventListener('keydown', onFirstKey);
+});

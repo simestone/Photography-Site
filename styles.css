@@ -1,0 +1,389 @@
+/* --- Base / variables --- */
+:root {
+  --maxw: 1200px;
+  --gap: 1rem;
+  --radius: 14px;
+}
+
+body {
+  font-family: "Alan Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  background-color: lightgrey;
+  margin: 0;
+}
+
+.sherlockContainer {
+  display: grid;
+  gap: clamp(.75rem, 2vw, 1.25rem);
+  justify-items: center;
+  align-items: start;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+/* 2 columns on tablets/desktop, 1 on mobile; article spans full width */
+.sherlockContainer {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 820px) {
+  .sherlockContainer {
+    grid-template-columns: 1.2fr .8fr;
+    align-items: start;
+  }
+}
+
+/* Gallery layout */
+.sherlockGallery {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--gap);
+}
+
+/* Card-style frames */
+.shot {
+  margin: 0;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+  overflow: hidden;                /* clips the rounded corners */
+}
+
+/* Make images consistent without distortion */
+.dog-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;             /* pick 1/1, 3/2, or 4/3 to taste */
+  object-fit: cover;                /* fills the frame nicely */
+  transition: transform .2s ease, filter .2s ease;
+}
+
+/* Subtle hover lift */
+.shot:hover .dog-photo,
+.shot:focus-within .dog-photo {
+  transform: scale(1.02);
+  filter: saturate(1.05) contrast(1.02);
+}
+
+#paw-prints {
+  max-width: 400px;
+  max-height: 400px;
+}
+
+#ar {
+  background: #2f4f4f;            /* darkslate */
+  color: #f5f7fa;                  /* soft white for readability */
+  max-width: 60%;
+  margin: 4rem auto;
+  padding: 2rem clamp(1rem, 3vw, 2rem);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  line-height: 1.65;
+  font-size: large;
+}
+
+.sherlockSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  align-items: center;                     /* center paw prints & card */
+}
+@media (min-width: 1024px) {
+  .sherlockSidebar { position: sticky; top: 1rem; } /* optional sticky */
+}
+
+
+
+/* Optional: nicer paragraph rhythm */
+#ar p { margin: 0; }
+
+/* Fade-in behavior */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 800ms ease, transform 800ms ease;
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none; opacity: 1; transform: none; }
+}
+
+#ar-trigger { height: 1px; }
+h1,
+.pageHeading {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- Navbar --- */
+.navbar {
+  /* removed invalid border-width:100% and duplicate border declarations */
+  border: 3px solid black;
+  background-color: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar button {
+  margin: 10px 20px;
+  background-color: grey;
+  border: 0;
+  font-size: large;
+  font-family: "Alan Sans", sans-serif;
+  color: bisque;
+}
+
+.navbar button:hover {
+  background-color: bisque;
+  border-radius: 10px;
+  color: #222;
+  transform: translateY(-2px);
+}
+
+/* --- Hero / misc --- */
+#mainImage {
+  max-height: 75%;
+  max-width: 75%;
+  position: relative;
+  border: 2px solid black;
+  border-top: 0;
+  display: block;
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  align-items: flex-start;
+  background-color: lightgrey;
+}
+
+article {
+  background-color: lightgrey;
+  margin-left: 20px;
+}
+
+.headers {
+  display: flex;
+  align-items: flex-start;
+  background-color: lightgrey;
+}
+
+#spLogo {
+  height: 150px;
+  width: 150px;
+}
+
+#headingText {
+  margin: 40px 0px;
+  text-align: center;
+  flex: 1;
+}
+
+/* --- Locations --- */
+.locations {
+  max-height: 300px;
+  max-width: 300px;
+  display: block;
+}
+
+.visitBtn {
+  border: 0;
+  background-color: slategrey;
+  color: bisque;
+  font-family: "Alan Sans", sans-serif;
+  font-size: x-large;
+  font-weight: 600;
+  min-width: 300px;
+}
+
+.location-card {
+  display: inline-block;
+  text-align: center;
+  margin: 10px;
+}
+
+/* --- Socials layout --- */
+.socials-container {
+  display: flex;
+  justify-content: space-between; /* space between left + right */
+  align-items: flex-start;        /* top aligned */
+  gap: 30px;
+  padding: 20px;
+}
+
+/* Left side: stack cards vertically */
+.socials-left {
+  flex: 1;            /* take up remaining space */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Right side: TikTok embed */
+.socials-right {
+  flex: 1;            /* take up equal space */
+  max-width: 600px;   /* prevent it from being too large */
+}
+
+/* --- Gallery (deduplicated) --- */
+.gallery {
+  max-width: var(--maxw);
+  margin: 0 auto 2rem;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--gap);
+}
+
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  margin: 20px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 5px groove black;           /* normalized order */
+  box-shadow: 0 2px 10px blue;        /* keep if you like the color */
+  transition: transform .18s ease, box-shadow .18s ease;
+  cursor: zoom-in;
+}
+
+.gallery-img:hover,
+.gallery-img:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px lightblue;
+  outline: none;
+}
+
+/* --- Lightbox --- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.85);
+  padding: 2rem;
+  z-index: 1000;
+}
+
+.lightbox[aria-hidden="false"] {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: min(100vw, 1100px);
+  max-height: 85vh;
+  border-radius: 10px;
+  box-shadow: 0 10px 40px brown;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  line-height: 1;
+  background: #fff;
+  border: none;
+  border-radius: 999px;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px brown;
+}
+
+:root {
+  --footer-h: 72px; /* will be updated by JS below */
+}
+
+/* fixed bottom panel */
+.bottomPanel {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: #2f4f4f;
+  color: #f5f7fa;
+  border-top: 1px solid rgba(255,255,255,.15);
+  box-shadow: 0 -8px 24px rgba(0,0,0,.16);
+  z-index: 80;
+}
+
+/* inner container aligned to your site width */
+.bottomPanel .footerWrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: .75rem clamp(1rem, 3vw, 2rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+}
+
+.bottomPanel a { color: inherit; text-decoration: none; }
+
+/* socials */
+.socials {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  list-style: none;
+  padding: 0; margin: 0;
+}
+.socials a {
+  display: inline-flex;
+  width: 34px; height: 34px;
+  align-items: center; justify-content: center;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  transition: transform .15s ease, background .15s ease, opacity .15s ease;
+}
+.socials a:hover { transform: translateY(-1px); background: rgba(255,255,255,.18); }
+.socials svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* text */
+.footerMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: .95rem;
+  opacity: .92;
+  text-align: right;
+}
+.footerMeta .copy, .footerMeta .credit { white-space: nowrap; }
+
+/* mobile stacking */
+@media (max-width: 720px) {
+  .bottomPanel .footerWrap {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: .5rem;
+  }
+  .footerMeta { flex-direction: column; gap: .25rem; text-align: center; }
+}
+
+/* keep content visible above fixed footer */
+body {
+  padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom));
+}
+
+
+/* Optional dark mode (kept commented)
+@media (prefers-color-scheme: dark) {
+  body { background: #0f1115; color: #e9ecf1; }
+  .navbar a { border-color: #2a2f3a; box-shadow: none; }
+  .gallery-img { border-color: #2a2f3a; box-shadow: 0 2px 10px rgba(0,0,0,.3); }
+  .lightbox { background: rgba(0,0,0,.75); }
+}
+*/
