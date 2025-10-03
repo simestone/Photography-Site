@@ -530,3 +530,34 @@ body {
 */
 
 
+/* --- Mobile rescue rules --- */
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+/* Make media responsive */
+img, video, canvas { max-width: 100%; height: auto; display: block; }
+
+/* Prevent fixed nav from covering content */
+:root { --nav-height: 64px; }            /* adjust to your real nav height */
+body.has-fixed-nav { padding-top: var(--nav-height); }
+
+/* Basic mobile layout */
+@media (max-width: 768px) {
+  /* If your nav is fixed, consider making it static on mobile */
+  nav, .navbar { position: static !important; top: auto !important; }
+
+  /* Stack menu items vertically or wrap when there isn't room */
+  nav ul, .navbar ul {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  nav li, .navbar li { flex: 1 1 auto; }
+
+  /* Avoid oversized logo/header colliding with nav */
+  .logo, header img { max-width: 40vw; height: auto; }
+
+  /* Keep main content away from edges */
+  main { padding: 0 16px; }
+}
+
+/* Optional: subtle shadow so the nav looks “above” without hiding content */
+nav { z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
