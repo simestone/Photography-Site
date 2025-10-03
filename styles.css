@@ -257,7 +257,7 @@ h1,
   }
 
   .navbar a {
-    padding: 6px 8px;    /* smaller clickable area */
+    padding: 2px 4px;    /* smaller clickable area */
   }
 }
 /* Hover highlight effect */
