@@ -256,7 +256,7 @@ h1,
 }
 
 /* Make it smaller on mobile */
-@media (max-width: 600px) {
+@media (max-width: 500px) {
   .navbar {
     gap: 10px;           /* tighter spacing */
     padding: 6px 10px;   /* less padding */
