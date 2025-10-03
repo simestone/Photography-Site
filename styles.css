@@ -246,6 +246,27 @@ h1,
   position: relative;
 }
 
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* spacing between items */
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+/* Make it smaller on mobile */
+@media (max-width: 600px) {
+  .navbar {
+    gap: 10px;           /* tighter spacing */
+    padding: 6px 10px;   /* less padding */
+    font-size: 0.85rem;  /* smaller text */
+  }
+
+  .navbar a {
+    padding: 6px 8px;    /* smaller clickable area */
+  }
+}
 /* Hover highlight effect */
 .navbar a:hover {
   border: 2px solid bisque;
