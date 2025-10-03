@@ -228,14 +228,14 @@ h1,
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
   padding: 10px 0;
 }
 
 /* Navbar links */
 .navbar a {
   margin: 0 20px;
-  padding: 6px 10px;
+  padding: 8px 14px;
   font-size: large;
   font-family: "Alan Sans", sans-serif;
   color: bisque;
