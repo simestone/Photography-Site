@@ -556,7 +556,7 @@ body.has-fixed-nav { padding-top: var(--nav-height); }
 nav { z-index: 10; box-shadow: 0 2px 8px rgba(74, 72, 72, 0.5); }
 
   :root {
-    --xfade-ms: 250ms;           /* page transition duration */
+    --xfade-ms: 100ms;           /* page transition duration */
     --reveal-ms: 300ms;          /* scroll-reveal duration */
     --reveal-distance: 16px;     /* how far items rise in */
     --xfade-bg: #000;            /* color seen under the fade (set to your brand) */
