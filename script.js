@@ -149,3 +149,99 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+
+  // Add the overlay once
+  (function setupOverlay(){
+    const el = document.createElement('div');
+    el.id = 'transition-overlay';
+    document.documentElement.appendChild(el);
+  })();
+
+  // Fade/flash when navigating to internal links
+  document.addEventListener('click', function (e) {
+    const a = e.target.closest('a');
+    if (!a) return;
+
+    // ignore new window, downloads, external, tel/mailto, hash-only
+    if (a.target === '_blank' || a.hasAttribute('download')) return;
+    const href = a.getAttribute('href') || '';
+    if (href.startsWith('mailto:') || href.startsWith('tel:')) return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin) return;
+    if (url.hash && url.pathname === location.pathname && url.search === location.search) return;
+
+    e.preventDefault();
+    const overlay = document.getElementById('transition-overlay');
+    const ms = parseFloat(getComputedStyle(document.documentElement)
+                .getPropertyValue('--flash-ms')) || 120;
+
+    // Trigger the flash
+    overlay.classList.add('flash');
+
+    // Navigate just after the flash peaks
+    setTimeout(() => { window.location.href = a.href; }, ms);
+  });
+
+  // Scroll reveal with IntersectionObserver
+
+  // Mark page as ready (handles normal load + back/forward cache)
+  function makeReady(){
+    document.body.classList.remove('is-leaving');
+    document.body.classList.add('is-ready');
+  }
+  window.addEventListener('DOMContentLoaded', makeReady);
+  window.addEventListener('pageshow', e => { if (e.persisted) makeReady(); });
+
+  // Intercept internal links for a smooth fade OUT, then navigate
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a');
+    if(!a) return;
+
+    // Skip new windows/downloads/external links/anchors
+    if(a.target === '_blank' || a.hasAttribute('download')) return;
+    const href = a.getAttribute('href') || '';
+    if(href.startsWith('mailto:') || href.startsWith('tel:')) return;
+    const url = new URL(a.href, location.href);
+    if(url.origin !== location.origin) return;
+    if(url.hash && url.pathname === location.pathname && url.search === location.search) return;
+
+    e.preventDefault();
+
+    const ms = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue('--xfade-ms')
+    ) || 350;
+
+    document.body.classList.remove('is-ready');
+    document.body.classList.add('is-leaving');
+
+    // Navigate right after the fade completes
+    setTimeout(() => { window.location.href = a.href; }, ms);
+  });
+
+  // Scroll-reveal: auto-tag direct children of <main> if not manually tagged
+  (function setupReveal(){
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.querySelectorAll('main > *:not(script):not(style)').forEach(el=>{
+      if(!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal','');
+    });
+
+    if(reduce){
+      document.querySelectorAll('[data-reveal]').forEach(el=>el.classList.add('reveal-in'));
+      return;
+    }
+
+    const io = new IntersectionObserver((entries)=>{
+      for(const entry of entries){
+        if(entry.isIntersecting){
+          entry.target.classList.add('reveal-in');
+          io.unobserve(entry.target);
+        }
+      }
+    }, { root: null, threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+
+    document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+  })();
+
+
