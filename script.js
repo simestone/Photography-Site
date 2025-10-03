@@ -2,6 +2,8 @@
 // Restored: Gallery lightbox + Article reveal-on-scroll (with container support)
 
 document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add("fade-in");
+  
   /* ============================
    *  LIGHTBOX FOR GALLERY IMAGES
    * ============================ 
@@ -132,3 +134,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // document.addEventListener('click', onFirstClick, { once: true });
   // document.addEventListener('keydown', onFirstKey);
 });
+
+
+    // Fade out before leaving
+    document.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        if (link.hostname === window.location.hostname) { // only internal links
+          e.preventDefault();
+          document.body.classList.remove("fade-in");
+          document.body.classList.add("fade-out");
+          setTimeout(() => {
+            window.location = link.href;
+          }, 300); // match transition duration
+        }
+      });
+    });

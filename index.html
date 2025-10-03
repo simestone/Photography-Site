@@ -15,20 +15,23 @@
 </head>
 <body>
   <header class="headers">
-    <img src="Images/SP_Logo.png" id="spLogo" alt="Simestone Photography logo" />
-    <h1 id="headingText">Simestone Photography</h1>
+    <img src="Images/SP_Logo.png" id="spLogo" alt="Simestone Photography logo" loading="lazy" />
+    <h1 id="headingText">Simestone <br> Photography</h1>
   </header>
-
 <nav class="navbar" aria-label="Primary">
-    <a href="index.html"><button type="button">Home</button></a>
-    <a href="sherlock.html"><button type="button">Sherlock</button></a>
-    <a href="locations.html"><button type="button">Locations</button></a>
-    <a href="gallery.html"><button type="button">Gallery</button></a>
-  </nav>
+  <a href="index.html" aria-current="page">Home</a>
+  <a href="sherlock.html">Sherlock</a>
+  <a href="locations.html">Locations</a>
+  <a href="gallery.html">Gallery</a>
+</nav>
 
-    <img src="Images/simestone_img.jpg" id="mainImage" alt="Main feature image" />
-  <div id="ar-trigger"></div>
-    <article id="ar">
+
+
+  
+
+    <img src="Images/simestone_img.jpg" class="landing-page-image" alt="Main feature image" />
+  <div class="landing-page-text-trigger"></div>
+    <article class="landing-page-text">
       <p>I’m Simon Stone, a passionate wildlife photographer dedicated to capturing the beauty 
         of nature throughout the year. I’m a perfectionist when it comes to my work—I’m always 
         searching for that perfect shot, patiently waiting for the right moment, and pushing 
@@ -37,8 +40,17 @@
         carefully considered. Photography, for me, isn’t just about documenting wildlife—it’s 
         about telling a story through dedication, creativity, and care in every step.</p>
     </article>
-  
+  <img src="Images/camera.png" class="landing-page-image" id="camera-image" alt="camera">
 </body>
+  <div class="landing-page-text-trigger"></div>
+    <article class="landing-page-text">
+      <p>Here is the wonderful Sony A7 IV. The Sony A7 IV is more than just a camera to me—it’s 
+        my constant companion and creative tool. With its powerful 33MP full-frame sensor, 
+        advanced autofocus, and stunning 4K video capabilities, it delivers the sharpness, 
+        detail, and dynamic range I need to capture every moment at its best. This camera isn’t 
+        just gear—it’s my prize possession. I take it everywhere, from everyday outings to 
+        special adventures, making sure I never miss the chance to get the perfect shot.</p>
+    </article>
 <aside class="bottomPanel" role="contentinfo" aria-label="Site footer">
   <div class="footerWrap">
     <ul class="socials" aria-label="Social links">
@@ -83,6 +95,7 @@
 </aside>
 
   </div>
+  <script src="script.js"></script>
   </body>
 
 </html>
