@@ -246,14 +246,7 @@ h1,
   position: relative;
 }
 
-.navbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px; /* spacing between items */
-  padding: 10px 20px;
-  font-size: 1rem;
-}
+
 
 /* Make it smaller on mobile */
 @media (max-width: 500px) {
